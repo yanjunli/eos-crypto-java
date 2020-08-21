@@ -81,8 +81,8 @@ public class EccTest {
     }
 
     /**
-     *  1. 基于信封的 加解密示例
-     * @throws UnsupportedEncodingException
+     *  1. 基于数字信封的 加解密示例
+     * @throws Exception
      */
     @Test
     public void cryto1() throws Exception {

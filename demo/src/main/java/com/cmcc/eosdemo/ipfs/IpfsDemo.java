@@ -7,7 +7,7 @@ import com.cmcc.eos.crypto.util.CryptUtil;
 import com.cmcc.eos.crypto.util.MTRandom;
 import com.cmcc.eos.crypto.util.StandardCharsets;
 import com.google.gson.JsonObject;
-import io.ipfs.api.IPFS;
+
 import io.ipfs.api.MerkleNode;
 import io.ipfs.multiaddr.MultiAddress;
 import io.ipfs.multihash.Multihash;
@@ -25,10 +25,12 @@ import java.util.List;
 public class IpfsDemo {
 
 
-    private static IPFS ipfs = new IPFS(new MultiAddress("/ip4/117.134.46.50/tcp/3925"));
-
+    private static IPFS ipfs = new IPFS(new MultiAddress("/ip4/localhost/tcp/3925"));
 
     public static void main(String[] args) throws IOException {
+
+        ipfs.setToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJqdGkiOiJwYWFzdG9rZW5zYTEiLCJpc3MiOiJjbWNjaXQiLCJzdWIiOiJwYWFzdG9rZW5zYTEiLCJpYXQiOjE1OTY1MzI4MTcsImV4cCI6MTU5OTEyNDgxNywidWlkIjoxNTk2NTMyODE2NjUyNDE1MTEwfQ.X6lEQ1GMaGIuGKXFvuHdZs4PE7tc0IyYjXUnWUVKGau5pp9_yegLvQQJQr6erI0LRn-0zT57DWgSI1TlvogoEw");
+
         uploadIpfs();
     }
 
@@ -86,7 +88,7 @@ public class IpfsDemo {
         random.nextBytes(nonce);
 
         // 待加密 数据
-        byte[] params = "{\"age\": 1,\"汉字\":\"汉字测试。为初始化向量，可以使用固定值，\"，\"12345\":\"24qqwazzxdtttdxkaskjewuizckczxnlsdosasda4!!!@#$$%^&&*(()(^#\"}".getBytes("utf8");
+        byte[] params = "{\"field1\": 1,\"field2\":\"24qqwazzxdtttdxkaskjewuizckczxnlsdosasda4!!!@#$$%^&&*(()(^#\"}".getBytes("utf8");
 
         System.out.println("原始加密数据： " + new String(params,StandardCharsets.UTF_8));
 
@@ -117,6 +119,8 @@ public class IpfsDemo {
         String nodeHash = node.hash.toBase58();
 
         System.out.println( " 上传 ipfs 后，获取到的 hash值 "+ nodeHash);
+
+        System.out.println(" =======================以下为下载方示例===================================");
 
         System.out.println(" 根据 上传获取到的 ipfs hash，从 ipfs 下载 数据。");
 
