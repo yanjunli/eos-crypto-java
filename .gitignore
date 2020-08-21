@@ -1,0 +1,6 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+target
+eos-crypto-java.iml
+eoscrypto/target
+eosdemo/target
