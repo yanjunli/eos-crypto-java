@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>eos-crypto-java</artifactId>
-        <groupId>com.cmcc</groupId>
+        <groupId>com.eos</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>eosdemo</artifactId>
+    <artifactId>demo</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -24,37 +24,31 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.4</version>
         </dependency>
         <!-- ipfs jar start  -->
         <dependency>
             <groupId>com.github.ipfs</groupId>
             <artifactId>java-ipfs-http-client</artifactId>
-            <version>v1.3.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.multiformats</groupId>
             <artifactId>java-multiaddr</artifactId>
-            <version>v1.4.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.multiformats</groupId>
             <artifactId>java-multihash</artifactId>
-            <version>v1.3.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.multiformats</groupId>
             <artifactId>java-multibase</artifactId>
-            <version>v1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.ipld</groupId>
             <artifactId>java-cid</artifactId>
-            <version>v1.3.1</version>
         </dependency>
 
         <!-- ipfs jar end  -->
@@ -62,22 +56,19 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
-            <version>0.10.5</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>0.10.5</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
-            <version>0.10.5</version>
         </dependency>
         <!--  jwt jar   end    -->
 
         <dependency>
-            <groupId>com.cmcc</groupId>
+            <groupId>com.eos</groupId>
             <artifactId>eoscrypto</artifactId>
         </dependency>
     </dependencies>
@@ -102,7 +93,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>eos-eosdemo</finalName>
+        <finalName>eos-crypto-demo</finalName>
     </build>
 
 
