@@ -1,6 +1,6 @@
-# **eos-com.cmcc.eos.crypto-java 使用指南**
+# **eos-crypto-java 使用指南**
 
-eos-com.cmcc.eos.crypto-java 目前可以支持 基于 ECC+AES 的加解密方式。 
+eos-crypto-java 目前可以支持 基于 ECC+AES 的加解密方式。 
 
 在本压缩包中，包含基于jdk1.5 打好的jar 包。
 
