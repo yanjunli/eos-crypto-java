@@ -473,11 +473,11 @@ public class EccTest {
         // Create subject CN as pod-name-0-task-name.service-name
 
         return new X500NameBuilder()
-                .addRDN(BCStyle.CN, "CMBaaS")
-                .addRDN(BCStyle.O, "cmcc")
+                .addRDN(BCStyle.CN, "CN")
+                .addRDN(BCStyle.O, "O")
                 .addRDN(BCStyle.L, "beijing")
                 .addRDN(BCStyle.ST, "beijing")
-                .addRDN(BCStyle.C, "CN")
+                .addRDN(BCStyle.C, "C")
                 .build();
     }
 
