@@ -29,7 +29,7 @@ import java.util.List;
 public class IpfsDemo {
 
 
-    private static IPFS ipfs = new IPFS(new MultiAddress("/ip4/117.134.46.50/tcp/3925"));
+    private static IPFS ipfs = new IPFS(new MultiAddress("/ip4/localhost/tcp/8080"));
 
     public static void main(String[] args) throws Exception {
 
