@@ -49,7 +49,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>eos-crypto-java</finalName>
+        <finalName>eoscrypto</finalName>
     </build>
 
 </project>
