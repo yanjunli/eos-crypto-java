@@ -157,7 +157,7 @@ String privateKey =  "5KTZYCDdcfNrmEpcf97SJBCtToZjYHjHm8tqTWvzUbsUJgkxcfk";
         random.nextBytes(nonce);
 
         // 待加密 数据
-        byte[] params = "{\"age\": 1,\"汉字\":\"汉字测试。为初始化向量，可以使用固定值，\"，\"12345\":\"24qqwazzxdtttdxkaskjewuizckczxnlsdosasda4!!!@#$$%^&&*(()(^#\"}".getBytes("utf8");
+        byte[] params = "{\"age\": 1,\"12345\":\"24qqwazzxdtttdxkaskjewuizckczxnlsdosasda4!!!@#$$%^&&*(()(^#\"}".getBytes("utf8");
 
         System.out.println("加密前原始数据： " + new String(params,"utf8"));
 
