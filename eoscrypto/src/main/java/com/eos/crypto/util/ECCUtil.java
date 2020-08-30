@@ -1,5 +1,7 @@
 package com.eos.crypto.util;
 
+import org.bouncycastle.jcajce.provider.asymmetric.ec.IESCipher;
+
 import javax.crypto.Cipher;
 import java.security.*;
 
@@ -20,17 +22,15 @@ public class ECCUtil {
 
     //公钥加密
     public static byte[] publicEncrypt(byte[] content, PublicKey publicKey) throws Exception {
-        Cipher cipher = Cipher.getInstance("ECIES", "BC");
-        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte[] bytes = cipher.doFinal(content);
-        return bytes;
+        IESCipher iesCipher = new org.bouncycastle.jcajce.provider.asymmetric.ec.IESCipher.ECIES();
+        iesCipher.engineInit(Cipher.ENCRYPT_MODE,publicKey,new SecureRandom());
+        return iesCipher.engineDoFinal(content,0,content.length);
     }
 
     //私钥解密
     public static byte[] privateDecrypt(byte[] content, PrivateKey privateKey) throws Exception {
-        Cipher cipher = Cipher.getInstance("ECIES", "BC");
-        cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        byte[] bytes = cipher.doFinal(content);
-        return bytes;
+        IESCipher iesCipher = new org.bouncycastle.jcajce.provider.asymmetric.ec.IESCipher.ECIES();
+        iesCipher.engineInit(Cipher.DECRYPT_MODE,privateKey,new SecureRandom());
+        return iesCipher.engineDoFinal(content,0,content.length);
     }
 }

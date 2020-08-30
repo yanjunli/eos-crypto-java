@@ -6,7 +6,6 @@ import com.eos.crypto.ec.EcSignature;
 import com.eos.crypto.ec.EosPrivateKey;
 import com.eos.crypto.ec.EosPublicKey;
 import com.eos.crypto.types.EosByteWriter;
-import com.cmcc.eos.crypto.util.*;
 import com.eos.crypto.util.*;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.asn1.x500.X500Name;
@@ -21,6 +20,7 @@ import org.bouncycastle.openssl.MiscPEMGenerator;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
+import org.bouncycastle.util.encoders.Hex;
 import org.bouncycastle.util.io.pem.PemObjectGenerator;
 import org.bouncycastle.util.io.pem.PemWriter;
 import org.junit.Assert;
@@ -276,7 +276,7 @@ public class EccTest {
         random.nextBytes(nonce);
 
         // 待加密 数据
-        byte[] params = "{\"age\": 1,\"汉字\":\"汉字测试。为初始化向量，可以使用固定值，\"，\"12345\":\"24qqwazzxdtttdxkaskjewuizckczxnlsdosasda4!!!@#$$%^&&*(()(^#\"}".getBytes("utf8");
+        byte[] params = "{\"age\": 1,\"12345\":\"24qqwazzxdtttdxkaskjewuizckczxnlsdosasda4!!!@#$$%^&&*(()(^#\"}".getBytes("utf8");
 
 
         System.out.println("原始加密数据： " + new String(params,"utf8"));
@@ -390,6 +390,28 @@ public class EccTest {
          * 验证 恢复的公钥与原公钥是否相同
          */
         Assert.assertEquals(privateKey.getPublicKey().toString(),testPublicKey.toString());
+    }
+
+    @Test
+    public void eccTest() throws Exception {
+        String privateKey =  "5KTZYCDdcfNrmEpcf97SJBCtToZjYHjHm8tqTWvzUbsUJgkxcfk";
+        EosPrivateKey eosPrivateKey = new EosPrivateKey(privateKey);
+        EosPublicKey  eosPublicKey = eosPrivateKey.getPublicKey();
+        // 转换成 EC privatekey
+        ECPrivateKey ecPrivateKey = eosPrivateKey.getECPrivateKey();
+        ECPublicKey ecPublicKey = eosPublicKey.getECPublicKey();
+
+        byte[] plaindata = "{\"age\": 1,\"12345\":\"24qqwazzxdtttdxkaskjewuizckczxnlsdosasda4!!!@#$$%^&&*(()(^#\"}".getBytes("utf8");
+
+        System.out.println("加密原文：" + new String(plaindata));
+//
+        byte[] encryptdata = ECCUtil.publicEncrypt(plaindata,ecPublicKey);
+//
+        System.out.println("加密后密文：" + HexUtils.toHex(encryptdata));
+
+        plaindata = ECCUtil.privateDecrypt(encryptdata,ecPrivateKey);
+
+        System.out.println("解密后原文: "+ new String(plaindata));
     }
 
     @Test

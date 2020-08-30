@@ -25,7 +25,6 @@ package com.eos.crypto.ec;
 
 import com.eos.crypto.digest.Ripemd160;
 import com.eos.crypto.digest.Sha256;
-import com.cmcc.eos.crypto.util.*;
 import com.eos.crypto.util.*;
 
 import java.util.regex.PatternSyntaxException;
