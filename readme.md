@@ -14,7 +14,7 @@ jdk 1.5+
 ## 基于 EOS 公钥加密，私钥解密示例
 
 ```java
-String privateKey =  "5KTZYCDdcfNrmEpcf97SJBCtToZjYHjHm8tqTWvzUbsUJgkxcfk";
+        String privateKey =  "5KTZYCDdcfNrmEpcf97SJBCtToZjYHjHm8tqTWvzUbsUJgkxcfk";
         EosPrivateKey eosPrivateKey = new EosPrivateKey(privateKey);
         EosPublicKey  eosPublicKey = eosPrivateKey.getPublicKey();
         // 转换成 EC privatekey
@@ -157,7 +157,7 @@ String privateKey =  "5KTZYCDdcfNrmEpcf97SJBCtToZjYHjHm8tqTWvzUbsUJgkxcfk";
         random.nextBytes(nonce);
 
         // 待加密 数据
-        byte[] params = "{\"age\": 1,\"12345\":\"24qqwazzxdtttdxkaskjewuizckczxnlsdosasda4!!!@#$$%^&&*(()(^#\"}".getBytes("utf8");
+        byte[] params = "{\"age\": 1,\"汉字\":\"为初始化向量，可以使用固定值，\"，\"12345\":\"24qqwazzxdtttdxkaskjewuizckczxnlsdosasda4!!!@#$$%^&&*(()(^#\"}".getBytes("utf8");
 
         System.out.println("加密前原始数据： " + new String(params,"utf8"));
 
@@ -189,17 +189,23 @@ String privateKey =  "5KTZYCDdcfNrmEpcf97SJBCtToZjYHjHm8tqTWvzUbsUJgkxcfk";
         // 将对称密钥加密后的数据，密文组装后，进行网络传输。
         // 组装 demo
         /**
-         *    4 byte                      |      encryptedKey                |  encryptedData
-         *    对称密钥加密后的数据长度      |      ECC 加密后的对称秘钥          |  AES 加密后的密文
+         *    4 byte                       |      encryptedKey                 |       4 byte              | encryptedData
+         *    对称密钥加密后的数据长度      |      ECC 加密后的对称秘钥           |       密文数据长度         | AES 加密后的密文
          */
 
-        ByteBuffer bytebuffer = ByteBuffer.allocate( 4 + encryptedKey.length + encryptedData.length);
+        ByteBuffer bytebuffer = ByteBuffer.allocate( 4 + encryptedKey.length + 4 +encryptedData.length);
         bytebuffer.putInt(encryptedKey.length);
         bytebuffer.put(encryptedKey);
+        bytebuffer.putInt(encryptedData.length);
         bytebuffer.put(encryptedData);
 
-        String base58encode = Base58.encode(bytebuffer.array());
-        System.out.println("base58 编码后的:   " + base58encode);
+//        String base58encode = Base58.encode(bytebuffer.array());
+//        System.out.println("base58 编码后的:   " + base58encode);
+
+        // 进行 16 进制编码
+        String hexencode = HexUtils.toHex(bytebuffer.array());
+
+        System.out.println(" 将数字信封和密文组装后的报文 16进制格式：" + hexencode);
 
         System.out.println("发送方数据加密完成，可以将数据发送出去 ");
 
@@ -207,18 +213,19 @@ String privateKey =  "5KTZYCDdcfNrmEpcf97SJBCtToZjYHjHm8tqTWvzUbsUJgkxcfk";
          *****************************************************  以下为接收方 代码  *************************************
          */
 
-        byte[] base58decode = Base58.decode(base58encode);
-        ByteBuffer receiveBuffer = ByteBuffer.wrap(base58decode);
+//        byte[] base58decode = Base58.decode(hexencode);
+        byte[] hexdecode = HexUtils.toBytes(hexencode);
+        ByteBuffer receiveBuffer = ByteBuffer.wrap(hexdecode);
 
-        // 获取到 机密可以
+        // 获取到对称秘钥长度
         int receivedEncryptedKeyLength = receiveBuffer.getInt();
         // 加密后的对称密钥key
         byte[] receivedEncryptKey = new byte[receivedEncryptedKeyLength];
         receiveBuffer.get(receivedEncryptKey,0,receivedEncryptedKeyLength);
 
         System.out.println(" 接收到的 加密后的对称密钥 ：" + HexUtils.toHex(receivedEncryptKey));
-
-        int contextLength = base58decode.length-4-receivedEncryptedKeyLength;
+        // 获取到的 密文的长度
+        int contextLength = receiveBuffer.getInt();
         // 密文
         byte[] receivedEncryptContext = new byte[contextLength];
         receiveBuffer.get(receivedEncryptContext,0,contextLength);
