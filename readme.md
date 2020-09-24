@@ -256,3 +256,29 @@ jdk 1.5+
         }
 
 ```
+
+## 根据 EOS 交易数据 恢复 公钥 示例
+
+```java
+        /**
+         *  16 进制 交易数据
+         */
+        String hexData = "6a3f0e5f210a14b478050000000001603463937a4c8f440000b82a5d5a91d401809fd18c4dea8f4400000020476d964aa701809fd18c4dea8f440f495ab51e9cb44908424f53533130303008554d43503130303004554d43501f3533314249503242333235323032303034313531363238323231353336363908ab91465f12000006017560c95d040000007560c95d0400000000000000000000000100000000000000080006323130303130c818f4515f12000040035df1481b000006363938303237082d4359313647424e0200000000000000000000000000";
+        /**
+         *  eos 签名
+         */
+        String signStr = "SIG_K1_K1Pgvc9jXrCbPXx23zGugEfhxcGXoCSJjFEzFQj2HoFie18qnizWzQGssQezmS8PZ9fkKci3k8PGM2MQpJvuXtRZtd4oCD";
+        EcSignature ecSignature = new EcSignature(signStr);
+        Sha256 curData = getDigestForSignature(new TypeChainId("4a2fb7b7aacce5ea952dc96fbac6ed648efc08c1e1577882f3f33c82da248d64"),hexData);
+        /**
+         *  恢复公钥
+         */
+        EosPublicKey eosPublicKey =  EcDsa.recoverPubKey(curData.getBytes(), ecSignature);
+
+        System.out.println("publicKey: " + eosPublicKey.toString());
+        /**
+         *  验证 恢复出来的公钥，与原公钥是否相同
+         */
+        Assert.assertEquals("EOS4wTJSTd29mZ4MNPZ2y4q2PtrimVpHLwHg8U4XMdzSBLa4BeYmN",eosPublicKey.toString());
+
+```

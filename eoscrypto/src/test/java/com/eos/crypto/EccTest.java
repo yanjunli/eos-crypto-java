@@ -305,7 +305,10 @@ public class EccTest {
         System.out.println("base58 编码后数据:   " + Base58.encode(encrypted));
 
         try {
-            byte[] plainText = CryptUtil.decrypt(receiverECPrivateKey,senderECPublicKey,nonce,encrypted);
+            byte[] plainText = CryptUtil.decrypt(receiverECPrivateKey,
+                    senderECPublicKey,
+                    nonce,
+                    encrypted);
             // 解密后数据
             System.out.println("解密后数据 :  "+new String(plainText, "utf8"));
         } catch (InvalidCipherTextException e) {
@@ -329,10 +332,10 @@ public class EccTest {
         String signStr = "SIG_K1_K1Pgvc9jXrCbPXx23zGugEfhxcGXoCSJjFEzFQj2HoFie18qnizWzQGssQezmS8PZ9fkKci3k8PGM2MQpJvuXtRZtd4oCD";
         EcSignature ecSignature = new EcSignature(signStr);
         Sha256 curData = getDigestForSignature(new TypeChainId("4a2fb7b7aacce5ea952dc96fbac6ed648efc08c1e1577882f3f33c82da248d64"),hexData);
+
         /**
          *  验证签名
          */
-
         EosPublicKey eosPublicKey =  EcDsa.recoverPubKey(curData.getBytes(), ecSignature);
 
         System.out.println(" 验签结果"+eosPublicKey.toString().equals("EOS4wTJSTd29mZ4MNPZ2y4q2PtrimVpHLwHg8U4XMdzSBLa4BeYmN"));
